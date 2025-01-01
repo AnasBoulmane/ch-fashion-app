@@ -1,6 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Chanel Fashion App
+
+A modernized clone of Chanel.com with enhanced search functionality and performance optimizations.
+
+## Features
+
+- 🔍 Advanced Search System
+
+  - Real-time suggestions
+  - Multi-layer caching (Memory + IndexedDB)
+  - Debounced queries
+  - Search history tracking
+
+- 🎨 UI/UX Improvements
+
+  - Responsive design
+  - Optimized loading states
+  - Clean transitions
+  - TypeScript-powered autocompletion
+
+- 🚀 Performance
+  - Client-side caching
+  - Optimized API calls
+  - Stable object references
+  - Memory usage monitoring
+
+## Tech Stack
+
+- **Frontend**: Next.js 14, React, TypeScript
+- **State Management**: Zustand
+- **Caching**: Custom implementation (Memory + IndexedDB)
+- **Styling**: Tailwind CSS
+- **Testing**: Jest (planned)
+
+## Architecture
+
+### Caching System
+
+```typescript
+Memory Cache (P1) → IndexedDB (P2) → API (P3)
+```
+
+Key Features
+
+- Two-layer cache implementation
+- Deterministic key generation
+- TTL support
+- Memory usage tracking
+
+### Project Structure
+
+```markdown
+src/
+├── app/ # Next.js app router
+├── components/ # React components
+├── lib/
+│ ├── api/ # API functions
+│ ├── helpers/ # Utilities
+│ └── store/ # Zustand stores
+└── types/ # TypeScript definitions
+```
 
 ## Getting Started
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 First, run the development server:
 
