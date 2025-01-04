@@ -16,7 +16,26 @@ export default {
         noto: 'var(--font-noto-sans)',
         abchanel: 'var(--font-abchanel-corpo)',
       },
+      spacing: {
+        '4.5': '1.125rem',
+      },
+      zIndex: {
+        '1': '1',
+        '2': '2',
+        '3': '3',
+      },
+      opacity: {
+        '60': '0.6',
+      },
+      maxWidth: {
+        'product-sm': '34.93%',
+        'product-md': '49.83%',
+        'product-lg': '41.69%',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    // animate
+    require('tailwindcss-animate'),
+  ],
 } satisfies Config

@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import useSearchStore from '@/lib/store/searchStore'
+import { useSearchStore } from '@/lib/store/searchStore'
 import { Suggestion } from '@/types/search'
 import { i18n } from '@/lib/localization'
 import { SuggestionItem } from './SuggestionItem'

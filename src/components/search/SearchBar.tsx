@@ -1,7 +1,16 @@
 import { FormEvent, KeyboardEvent } from 'react'
-import useSearchStore from '@/lib/store/searchStore'
-import { Icon } from './Icon'
+import { useSearchStore } from '@/lib/store/searchStore'
+import { Icon } from '../common/Icon'
 import { i18n } from '@/lib/localization'
+import { cn } from '@/lib/helpers/css/cn'
+
+const searchBarCn = cn([
+  'w-full md:w-5/6 lg:w-4/6', // base
+  'pt-3 md:pt-6 px-7 md:px-1 pb-1.5 ', // padding
+  'relative after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[4px] md:after:bg-black', // underline effect base
+  'after:transition-opacity after:duration-700 after:ease-out after:opacity-0 md:after:focus-within:opacity-100', // underline effect animation
+  'border-b border-neutral-200 md:border-black',
+])
 
 export const SearchBar = () => {
   const { term, setTerm, search } = useSearchStore()
@@ -16,16 +25,8 @@ export const SearchBar = () => {
   }
 
   return (
-    <div
-      className={`
-        w-full md:w-5/6 lg:w-4/6
-        pt-3 md:pt-6 px-7 md:px-1 pb-1.5 
-        relative after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[4px] md:after:bg-black
-        after:transition-opacity after:duration-700 after:ease-out after:opacity-0 md:after:focus-within:opacity-100
-        border-b border-neutral-200 md:border-black
-      `}
-    >
-      <div role="search" className="relative flex items-center bg-neutral-100 md:bg-transparent ">
+    <div className={searchBarCn}>
+      <div role="search" className="relative flex items-center bg-neutral-100 md:bg-transparent">
         <input
           id="search-overlay-input"
           type="search"
@@ -35,8 +36,8 @@ export const SearchBar = () => {
           onKeyDown={handleSearch}
           placeholder="Search"
           className={`
-            font-abchanel font-bold outline-none text-black bg-transparent uppercase px-9 py-1.5 w-full 
-            md:text-center md:text-4xl md:py-0 md:leading-none
+            font-abchanel font-bold outline-none text-black bg-transparent uppercase px-9 py-1.5 w-full
+            md:text-center md:text-4xl md:leading-none md:py-0 md:pl-20 md:pr-28
           `}
         />
 

@@ -1,4 +1,3 @@
-
 export interface Suggestion {
   axistypeId: string
   nrResults: number
@@ -14,7 +13,7 @@ export interface SuggestResponse {
   timestamp: string
 }
 
-export type AxisType = "fashion" | "eyewear" | "fragrance" | "jewelry" | "makeup" | "skincare" | "watches"
+export type AxisType = 'fashion' | 'eyewear' | 'fragrance' | 'jewelry' | 'makeup' | 'skincare' | 'watches'
 
 export interface Product {
   code: string
@@ -33,6 +32,7 @@ export interface Product {
   productTypeGroup: string | null
   isPermanent: boolean
   sellableOnline: boolean
+  vtoActive: boolean
   // Image handling
   imageData: {
     baseUrl: string
@@ -107,9 +107,11 @@ export interface SearchResponse {
     // Additional content
     searchOverlayPulsContents?: string[]
     // No results handling
-    noResultAxis: {
-      [K in AxisType]?: string
-    } | null
+    noResultAxis:
+      | {
+          [K in AxisType]?: string
+        }
+      | null
   }
   success: boolean
   timestamp: string

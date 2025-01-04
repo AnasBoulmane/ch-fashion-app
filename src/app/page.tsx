@@ -1,7 +1,5 @@
-import { SearchBox } from "@/components/SearchBox";
+import { SearchOverlay } from '@/components/search/SearchOverlay'
 
 export default function Home() {
-  return (
-    <SearchBox />
-  );
+  return <SearchOverlay />
 }

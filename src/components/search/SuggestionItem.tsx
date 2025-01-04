@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { i18n } from '@/lib/localization'
 import { Suggestion } from '@/types/search'
-import { Icon } from './Icon'
+import { Icon } from '../common/Icon'
 
 type SuggestionItemProps = {
   suggestion: Suggestion

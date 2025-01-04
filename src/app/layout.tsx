@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { noto } from './fonts'
 import './globals.css'
+import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -13,8 +14,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`${noto.variable} antialiased`}>{children}</body>
+    <html lang="en-US">
+      <body className={`language-en_US ${noto.variable} antialiased`}>
+        {children}
+        <Script id="vtoLoader" src="/vto-lazy-loader.js" strategy="afterInteractive" />
+      </body>
     </html>
   )
 }

@@ -22,9 +22,9 @@ export async function baseFetchSearchResults(
     q: query,
     page: page.toString(),
     size: size.toString(),
-  });
-  if (filter) params.append('filter', filter);
-  if (axis) params.append('axis', axis);
+  })
+  if (filter) params.append('filter', filter)
+  if (axis) params.append('axis', axis)
 
   const response = await fetch(`/api/search?${params.toString()}`)
   if (!response.ok) {
@@ -33,5 +33,4 @@ export async function baseFetchSearchResults(
   return response.json()
 }
 
-// export const fetchSearchResults = withCacheFirst('search', baseFetchSearchResults)
-export const fetchSearchResults = baseFetchSearchResults
+export const fetchSearchResults = withCacheFirst('search', baseFetchSearchResults)

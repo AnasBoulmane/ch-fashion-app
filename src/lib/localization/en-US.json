@@ -1,5 +1,8 @@
 {
   "messages": {
+    "acc": "ACCESSORIES",
+    "rtw": "READY TO WEAR",
+    "search-product-content": "Products ({0})",
     "header-a11y-aboutChanel": "Corporate",
     "search-labelOneSuggestion": "There is one suggested link",
     "search-labelManySuggestions": "There is {0} suggested links",
