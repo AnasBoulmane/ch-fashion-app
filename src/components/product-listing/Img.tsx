@@ -120,10 +120,6 @@ export const Img = memo(
     const finalStyleModifier =
       styleModifier + (styleModifiers[styling.toLowerCase() as keyof typeof styleModifiers] || '')
 
-    useEffect(() => {
-      console.log('Image Rendered', filename)
-    })
-
     return (
       <>
         {isNewSearchGrid ? (

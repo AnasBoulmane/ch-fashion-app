@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import { debounce } from 'lodash'
+import { debounce, DebouncedFunc, throttle } from 'lodash'
 import { AxisType, Filter, Product, Suggestion } from '@/types/search'
 import { fetchSearchResults, fetchSuggestions } from '../api'
 
@@ -32,8 +32,8 @@ export type SearchState = {
 export type SearchActions = {
   // Core search actions
   setTerm: (term: string) => void
-  search: (term: string, axisType?: string) => Promise<void>
-  getSuggestions: (term: string) => Promise<void>
+  search: DebouncedFunc<(term: string, axisType?: string) => Promise<void>>
+  getSuggestions: DebouncedFunc<(term: string) => Promise<void>>
   clearHistory: () => void
 
   // Filter actions
@@ -44,6 +44,13 @@ export type SearchActions = {
   toggleFilterDrawer: () => void
   loadMore: () => Promise<void>
 }
+
+/**
+ * store a generated request id to be able to abort it
+ * when a new request is made
+ */
+let currentRequestId: string | null = null
+const updateRequestId = () => (currentRequestId = Math.random().toString(36).substring(2, 15))
 
 export const useSearchStore = create<SearchState & SearchActions>()(
   devtools((set, get) => ({
@@ -70,6 +77,8 @@ export const useSearchStore = create<SearchState & SearchActions>()(
 
     // Core search functionality
     setTerm: (term) => {
+      // Skip if term is the same (e.g. when typing fast + enter it triggers search and suggestions)
+      // if (term === get().term) return
       set({ term })
       // Trigger suggestions when term length >= 2
       if (term.length >= 2) {
@@ -82,10 +91,14 @@ export const useSearchStore = create<SearchState & SearchActions>()(
     // Debounced suggestions fetcher
     getSuggestions: debounce(async (term) => {
       try {
-        const suggestionsRes = await fetchSuggestions(term)
+        // generate a new request id, aborting the previous one
+        const requestId = updateRequestId()
+        const { data } = await fetchSuggestions(term)
+        // Check if request is still valid, otherwise ignore
+        if (requestId !== currentRequestId) return
         set({
-          suggestions: suggestionsRes?.data?.suggestions || [],
           isSearching: false,
+          suggestions: data?.suggestions || [],
         })
       } catch (error) {
         console.error('Failed to fetch suggestions:', error)
@@ -93,18 +106,24 @@ export const useSearchStore = create<SearchState & SearchActions>()(
       }
     }, 300),
 
-    search: async (term, axisType) => {
+    search: throttle(async (term, axisType) => {
       const store = get()
       const activeFilters = ''
-
-      set({ isSearching: true, isLoading: true, products: [] }) // Reset products on new search
+      // Cancel any pending suggestions
+      store.getSuggestions.cancel()
+      console.log('searching', term, axisType)
+      // generate a new request id, aborting the previous one
+      const requestId = updateRequestId()
+      // Reset products, loading state and set search term
+      set({ term, isSearching: true, isLoading: true, products: [] })
 
       try {
         // Perform search with current filters and price range
         const { data } = await fetchSearchResults(term, activeFilters, axisType)
         // Check if search data is available
         if (!data.landingAxisSearchData) throw new Error('No search data found')
-
+        // Check if request is still valid, otherwise ignore
+        if (requestId !== currentRequestId) return
         set({
           availableAxisTypes: data.axisMap ? (Object.keys(data.axisMap) as AxisType[]) : [],
           activeAxisType: data.landingAxisSearchData.axisType,
@@ -127,7 +146,7 @@ export const useSearchStore = create<SearchState & SearchActions>()(
           totalCount: 0,
         })
       }
-    },
+    }, 300),
 
     // // Filter management
     // toggleFilter: (filter) => {

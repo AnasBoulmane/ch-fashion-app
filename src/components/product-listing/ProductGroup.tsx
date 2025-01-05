@@ -36,7 +36,6 @@ export const ProductGroup = ({ groupId, products }: ProductGroupProps) => {
               key={productData.code}
               withGreyBg={productData.axisType !== 'fashion'}
               withEcomEnabled={productData.axisType !== 'fashion'}
-              withProductName={true}
               isNewPriceDisplay={true}
             />
           ))}

@@ -4,14 +4,15 @@ import { Product } from '@/types/search'
 import { i18n } from '@/lib/localization'
 import { AddToWishlist } from './AddToWishlist'
 
+import './ProductCard.css'
+import { TryOnButton } from './TryOnButton'
+
 type ProductCardProps = Product & {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   imageData: any
-  originalIndex: number
   // display options
   withEcomEnabled: boolean
   withGreyBg: boolean
-  withProductName: boolean
   isNewPriceDisplay: boolean
 }
 
@@ -41,15 +42,12 @@ export const ProductCard = memo(
     price,
     priceMention,
     displayPriceMention,
-    originalIndex,
     numberOfVariants,
     vtoActive,
     // display options
     withGreyBg,
-    withProductName,
     isNewPriceDisplay,
   }: ProductCardProps) => {
-    const dataTestView = (imageData && imageData.packshotID) || 'PACKSHOT_DEFAULT'
     const useFallbackTransformation = imageData && imageData.isAccessory && imageData.fallbackTransformation
     const transformationsPlain = useFallbackTransformation
       ? imageData.fallbackTransformation
@@ -62,57 +60,37 @@ export const ProductCard = memo(
       price && ((priceDisplayEnabled && displayPriceMention === 'PRICE') || (!priceDisplayEnabled && priceMention))
 
     return (
-      <div
-        className={`product--container ${withProductName ? 'fsh_with-product-name' : ''}`}
-        data-test-view={dataTestView}
-        data-analytics={JSON.stringify(analytics)}
-        data-position-desktop={originalIndex}
-        data-position-mobile={originalIndex}
-      >
-        <div data-product-element={'image'} className={`product--media js-propagate-link `}>
-          {imageData && (
-            <Img
-              preloadedUrl={imageData.preloadedUrl}
-              baseUrl={imageData.baseUrl}
-              filename={imageData.path}
-              srcSet={PRODUCT_IMAGES_SRC_SET}
-              transformations={WITHOUT_TRANSFORMATION}
-              transformationsPlain={transformationsPlain}
-              withGreyBg={addGreyBg}
-              isNewSearchGrid
-            />
-          )}
-        </div>
-        <div className="btn-group !p-1">
-          {vtoActive && (
-            <button
-              type="button"
-              className="button is-icon is-vto-button js-vto-button vto-open"
-              aria-describedby={code}
-              data-id={code}
-              data-axis={axisType}
-              data-vto-ref={code}
-              data-baseproduct={undefined}
-            >
-              <span className="text">{'config.search.tryOnButton'}</span>
-            </button>
-          )}
-
+      <article data-id={code} data-analytics={JSON.stringify(analytics)} className="product--container relative">
+        <p role="heading" aria-level={4}>
+          <a id={code} className="product--link !m-0" href={link}>
+            <div className={`product--media`}>
+              {imageData && (
+                <Img
+                  preloadedUrl={imageData.preloadedUrl}
+                  baseUrl={imageData.baseUrl}
+                  filename={imageData.path}
+                  srcSet={PRODUCT_IMAGES_SRC_SET}
+                  transformations={WITHOUT_TRANSFORMATION}
+                  transformationsPlain={transformationsPlain}
+                  withGreyBg={addGreyBg}
+                  isNewSearchGrid
+                />
+              )}
+            </div>
+            {name && (
+              <span role="presentation" className="heading is-cropped" data-product-element={'name'}>
+                {name}
+              </span>
+            )}
+            {description && <span className="is-sr-only">{description}</span>}
+            {refFshCode && <span className="is-sr-only">{refFshCode}</span>}
+          </a>
+        </p>
+        <div className="btn-group !p-1 absolute right-0 top-0">
+          {vtoActive && <TryOnButton code={code} axisType={axisType} />}
           <AddToWishlist productAxisType={axisType} productCode={code} />
         </div>
         <div className="product--content txt-product">
-          <p role="heading" aria-level={4}>
-            <a id={code} className="product--link" href={link}>
-              {name && (
-                <span role="presentation" className="heading is-cropped" data-product-element={'name'}>
-                  {name}
-                </span>
-              )}
-              {description && <span className="is-sr-only">{description}</span>}
-              {refFshCode && <span className="is-sr-only">{refFshCode}</span>}
-            </a>
-          </p>
-
           {numberOfVariants && numberOfVariants > 1 && (
             <p className="product--variant" data-product-element={'shades'}>
               {numberOfVariants} {i18n('product-colors')}
@@ -124,7 +102,7 @@ export const ProductCard = memo(
             </p>
           )}
         </div>
-      </div>
+      </article>
     )
   }
 )
