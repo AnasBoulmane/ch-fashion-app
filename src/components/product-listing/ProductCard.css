@@ -3,29 +3,13 @@
   --color-secondary: #f9f9f9;
   --transition-duration: 3s; /* Used for image fade in */
   --font-base: abchanel-corpo, Arial, Helvetica, sans-serif;
+  --font-weight-semibold: 600;
 }
 
 .product--container {
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  width: 100%;
-  cursor: pointer;
-
-  & .product--link::after {
-    pointer-events: none;
-  }
-
-  & .product__add-to-bag {
-    border-bottom: var(--border-width) solid var(--color-primary);
-    color: var(--color-primary);
-    z-index: var(--z-index-default);
-
-    & .button__wrapper {
-      text-align: left;
-    }
-  }
+  @apply inline-flex flex-col justify-center relative w-full;
+  user-drag: none;
+  -webkit-user-drag: none;
 
   & .product--media {
     position: relative;
@@ -42,14 +26,11 @@
     }
 
     & img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
+      z-index: 2;
       transition: opacity var(--transition-duration) ease;
       will-change: transform;
-      z-index: 2;
+      user-drag: none;
+      -webkit-user-drag: none;
     }
   }
 
@@ -61,18 +42,23 @@
     font-family: var(--font-base);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
-    margin-top: 1.125rem;
   }
 
   & .is-cropped {
     padding: 0;
+    margin-top: 1.125rem;
   }
 
-  & .product--link::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 3;
+  & .product--link {
+    user-drag: none;
+    -webkit-user-drag: none;
+    &::after {
+      content: '';
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+    }
   }
 
   & .product--price {
@@ -98,6 +84,16 @@
 
     &.absolute {
       margin-top: calc(116.60156% - 3.125rem);
+    }
+  }
+
+  & .product__add-to-bag {
+    border-bottom: var(--border-width) solid var(--color-primary);
+    color: var(--color-primary);
+    z-index: var(--z-index-default);
+
+    & .button__wrapper {
+      text-align: left;
     }
   }
 }

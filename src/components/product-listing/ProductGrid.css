@@ -1,6 +1,22 @@
-/*  */
-.is-sr-only {
-  @apply sr-only;
+/* ---------------------------------------------------
+   CSS Variables for Consistent Styling
+---------------------------------------------------- */
+:root {
+  --color-primary: #1d1d1d;
+  --color-secondary: #f9f9f9;
+  --color-wishlist-fill: #ffffff4d;
+  --color-wishlist-stroke: #1d1d1d;
+  --border-width: 1px;
+  --transition-duration: 3s;
+  --font-base: abchanel-corpo, Arial, Helvetica, sans-serif;
+  --font-size-base: 0.75rem;
+  --font-weight-semibold: 600;
+  --z-index-default: 1;
+  --z-index-btn-group: 3;
+  --z-index-push-pin: 2;
+  --push-pin-size: 1.25rem;
+  --icon-size: 0.875rem;
+  --push-pin-offset: 0.9375rem;
 }
 
 .eyewear-product-list.product-list.nw-product-grid {
@@ -42,27 +58,6 @@
   .product-grid {
     margin: 0 auto;
   }
-}
-
-/* ---------------------------------------------------
-   CSS Variables for Consistent Styling
----------------------------------------------------- */
-:root {
-  --color-primary: #1d1d1d;
-  --color-secondary: #f9f9f9;
-  --color-wishlist-fill: #ffffff4d;
-  --color-wishlist-stroke: #1d1d1d;
-  --border-width: 1px;
-  --transition-duration: 3s;
-  --font-base: abchanel-corpo, Arial, Helvetica, sans-serif;
-  --font-size-base: 0.75rem;
-  --font-weight-semibold: 600;
-  --z-index-default: 1;
-  --z-index-btn-group: 3;
-  --z-index-push-pin: 2;
-  --push-pin-size: 1.25rem;
-  --icon-size: 0.875rem;
-  --push-pin-offset: 0.9375rem;
 }
 
 /* ---------------------------------------------------

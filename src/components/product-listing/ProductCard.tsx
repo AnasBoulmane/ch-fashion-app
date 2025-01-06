@@ -62,10 +62,11 @@ export const ProductCard = memo(
     return (
       <article data-id={code} data-analytics={JSON.stringify(analytics)} className="product--container relative">
         <p role="heading" aria-level={4}>
-          <a id={code} className="product--link !m-0" href={link}>
-            <div className={`product--media`}>
+          <a id={code} className="product--link" href={link}>
+            <span className={`product--media block select-none`}>
               {imageData && (
                 <Img
+                  className="absolute inset-0 w-full h-full select-none"
                   preloadedUrl={imageData.preloadedUrl}
                   baseUrl={imageData.baseUrl}
                   filename={imageData.path}
@@ -76,14 +77,14 @@ export const ProductCard = memo(
                   isNewSearchGrid
                 />
               )}
-            </div>
+            </span>
             {name && (
               <span role="presentation" className="heading is-cropped" data-product-element={'name'}>
                 {name}
               </span>
             )}
-            {description && <span className="is-sr-only">{description}</span>}
-            {refFshCode && <span className="is-sr-only">{refFshCode}</span>}
+            {description && <span className="sr-only">{description}</span>}
+            {refFshCode && <span className="sr-only">{refFshCode}</span>}
           </a>
         </p>
         <div className="btn-group !p-1 absolute right-0 top-0">

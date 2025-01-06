@@ -1,4 +1,4 @@
-import { memo, use, useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import { generateImageSources } from '@/lib/helpers/img/src-gen'
 import { cn } from '@/lib/helpers/css/cn'
 
@@ -17,10 +17,6 @@ type ImgProps = {
   withGreyBg?: boolean
   isNewSearchGrid?: boolean
 
-  // Styling
-  styleModifier?: 'frame' | 'line' | ''
-  styling?: string
-
   // Loading & Accessibility
   preloadedUrl?: string
   longDescription?: string
@@ -31,19 +27,12 @@ type ImgProps = {
   onError?: () => void
 }
 
-// Style modifiers
-const styleModifiers = {
-  frame: 'has-border',
-  line: 'has-border-top',
-}
-
 export const Img = memo(
   ({
     filename,
     baseUrl,
     preloadedUrl,
-    styleModifier = '',
-    styling = '',
+    className = '',
     alt = '',
     dataTest,
     srcSet,
@@ -117,16 +106,13 @@ export const Img = memo(
       }
     }
 
-    const finalStyleModifier =
-      styleModifier + (styleModifiers[styling.toLowerCase() as keyof typeof styleModifiers] || '')
-
     return (
       <>
         {isNewSearchGrid ? (
           <img
             ref={imageRef}
             style={{ opacity: isLoaded ? 1 : 0 }}
-            className={cn(isVisible === undefined && 'is-lazy', filename === '' && finalStyleModifier.trim())}
+            className={cn([isVisible === undefined && 'is-lazy', className])}
             alt={alt}
             onLoad={() => {
               setIsLoaded(true)
@@ -143,7 +129,7 @@ export const Img = memo(
             }}
             srcSet={computedSrcSet}
             sizes={sizes}
-            className={cn('is-lazy', isLoaded && 'fade in', filename === '' && finalStyleModifier.trim())}
+            className={cn('is-lazy', isLoaded && 'fade in', className)}
             data-sizes="auto"
             alt={alt}
             onLoad={() => {
@@ -154,7 +140,7 @@ export const Img = memo(
           />
         )}
 
-        {longDescription && <div className="is-sr-only">{longDescription}</div>}
+        {longDescription && <div className="sr-only">{longDescription}</div>}
       </>
     )
   }

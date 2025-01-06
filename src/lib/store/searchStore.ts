@@ -77,8 +77,6 @@ export const useSearchStore = create<SearchState & SearchActions>()(
 
     // Core search functionality
     setTerm: (term) => {
-      // Skip if term is the same (e.g. when typing fast + enter it triggers search and suggestions)
-      // if (term === get().term) return
       set({ term })
       // Trigger suggestions when term length >= 2
       if (term.length >= 2) {
@@ -118,6 +116,7 @@ export const useSearchStore = create<SearchState & SearchActions>()(
       set({ term, isSearching: true, isLoading: true, products: [] })
 
       try {
+        console.log('searching', term, axisType)
         // Perform search with current filters and price range
         const { data } = await fetchSearchResults(term, activeFilters, axisType)
         // Check if search data is available
@@ -181,9 +180,11 @@ export const useSearchStore = create<SearchState & SearchActions>()(
       const { term, page, activeAxisType } = store
       const nextPage = page + 1
       const activeFilters = ''
-      set({ isSearching: true, isLoading: true })
+      // Set loading state, in case of cached data the promise will prevent flickering UI
+      Promise.resolve().then(() => set({ isLoading: true }))
 
       try {
+        console.log('loading more results', term, nextPage)
         const { data } = await fetchSearchResults(term, activeFilters, activeAxisType, nextPage)
         // Check if search data is available
         if (!data.landingAxisSearchData) throw new Error('No search data found')
@@ -218,3 +219,4 @@ const updateSearchHistory = (history: string[], term: string) => {
 // }
 
 export const selectIsSearchLoading = (state: SearchState) => state.isLoading && state.isSearching
+export const selectHasMoreResults = (state: SearchState) => state.page < state.pageCount
