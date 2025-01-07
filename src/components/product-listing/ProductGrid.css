@@ -7,7 +7,7 @@
   --color-wishlist-fill: #ffffff4d;
   --color-wishlist-stroke: #1d1d1d;
   --border-width: 1px;
-  --transition-duration: 3s;
+  --transition-duration: 2s;
   --font-base: abchanel-corpo, Arial, Helvetica, sans-serif;
   --font-size-base: 0.75rem;
   --font-weight-semibold: 600;
@@ -68,29 +68,26 @@
 @media screen and (max-width: 37.5rem) {
   .product-grid .product--container {
     flex: 1 1 100%;
-    margin-bottom: 2.8125rem;
+    margin: 0 0 2.8125rem;
   }
 
   /* Simplified nth-child selectors by grouping similar patterns */
   .product-grid .product--container:nth-child(6n + 1),
   .product-grid .product--container:nth-child(6n + 5) {
-    margin-right: 2%;
+    margin: 0 2% 2.8125rem;
     max-width: 34.9333333333%;
-    margin-bottom: 2.8125rem;
   }
 
   .product-grid .product--container:nth-child(6n + 2),
   .product-grid .product--container:nth-child(6n + 4) {
-    margin-right: 2%;
+    margin: 0 2% 2.8125rem;
     max-width: 53.0666666667%;
-    margin-bottom: 2.8125rem;
   }
 
   .product-grid .product--container:nth-child(6n + 7),
   .product-grid .product--container:nth-child(6n + 8) {
-    margin-right: 2%;
+    margin: 0 2% 2.8125rem;
     max-width: 43.2%;
-    margin-bottom: 2.8125rem;
   }
 
   /* Hidden nth-child selectors */
@@ -100,22 +97,23 @@
   }
 
   /* Adjustments for product-name with specific nth-child */
-  .product-grid .product--container.fsh_with-product-name:nth-child(6n),
-  .product-grid .product--container.fsh_with-product-name:nth-child(6n + 3) {
-    .product--media span {
+  .product-grid .product--container:nth-child(6n),
+  .product-grid .product--container:nth-child(6n + 3) {
+    .product--content,
+    .product--link span:not(.product--media) {
       margin-left: 1.25rem;
     }
 
-    .is-icon.is-vto-button {
+    .js-vto-button {
       padding: 0 0.3125rem;
       width: auto;
     }
 
-    .is-icon.is-vto-button .icon {
+    .js-vto-button .icon {
       margin: 0 0.291875rem;
     }
 
-    .is-icon.is-vto-button .text {
+    .js-vto-button .text {
       clip: auto;
       border: none;
       clip-path: none;
@@ -131,8 +129,7 @@
 /* Tablet Styles (min-width: 37.5625rem) */
 @media screen and (min-width: 37.5625rem) {
   .product-grid .product--container {
-    margin-right: 3.3821871477%;
-    margin-bottom: 5.625rem;
+    margin: 0 3.3821871477% 5.625rem 0;
     max-width: 28.1848928974%;
   }
 
@@ -140,40 +137,35 @@
   .product-grid .product--container:nth-child(27n + 14),
   .product-grid .product--container:nth-child(27n + 19),
   .product-grid .product--container:nth-child(27n + 5) {
-    margin-right: 0;
-    margin-bottom: 5.625rem;
+    margin: 0 0 5.625rem;
   }
 
   .product-grid .product--container:nth-child(27n + 1),
   .product-grid .product--container:nth-child(27n + 16) {
-    margin-right: 1.6910935738%;
+    margin: 0 1.6910935738% 5.625rem;
     max-width: 49.8308906426%;
-    margin-bottom: 5.625rem;
   }
 
   .product-grid .product--container:nth-child(27n + 15),
   .product-grid .product--container:nth-child(27n + 2) {
-    margin-right: 1.6910935738%;
+    margin: 0 1.6910935738% 5.625rem;
     max-width: 29.8759864713%;
-    margin-bottom: 5.625rem;
   }
 
   .product-grid .product--container:nth-child(27n + 11),
   .product-grid .product--container:nth-child(27n + 21),
   .product-grid .product--container:nth-child(27n + 24),
   .product-grid .product--container:nth-child(27n + 6) {
-    margin-right: 4.2277339346%;
+    margin: 0 4.2277339346% 5.625rem;
     max-width: 25.3664036077%;
-    margin-bottom: 5.625rem;
   }
 
   .product-grid .product--container:nth-child(27n + 10),
   .product-grid .product--container:nth-child(27n + 20),
   .product-grid .product--container:nth-child(27n + 25),
   .product-grid .product--container:nth-child(27n + 7) {
-    margin-right: 4.2277339346%;
+    margin: 0 4.2277339346% 5.625rem;
     max-width: 57.7226606539%;
-    margin-bottom: 5.625rem;
   }
 
   .product-grid .product--container:nth-child(27n),
@@ -182,31 +174,8 @@
   .product-grid .product--container:nth-child(27n + 26),
   .product-grid .product--container:nth-child(27n + 8),
   .product-grid .product--container:nth-child(27n + 9) {
-    margin-right: 1.1400651466%;
-    max-width: 39.5765472313%;
-    margin-bottom: 5.625rem;
-  }
-
-  /* Hidden nth-child selectors */
-  .product-grid .product--container[hidden]:nth-child(27n + 11),
-  .product-grid .product--container[hidden]:nth-child(27n + 14),
-  .product-grid .product--container[hidden]:nth-child(27n + 16),
-  .product-grid .product--container[hidden]:nth-child(27n + 19),
-  .product-grid .product--container[hidden]:nth-child(27n + 2),
-  .product-grid .product--container[hidden]:nth-child(27n + 21),
-  .product-grid .product--container[hidden]:nth-child(27n + 23),
-  .product-grid .product--container[hidden]:nth-child(27n + 25),
-  .product-grid .product--container[hidden]:nth-child(27n + 5),
-  .product-grid .product--container[hidden]:nth-child(27n + 7),
-  .product-grid .product--container[hidden]:nth-child(27n + 9) {
-    display: inline-flex !important;
-  }
-
-  .product-grid .product--container[hidden]:nth-child(27n + 13),
-  .product-grid .product--container[hidden]:nth-child(27n + 18),
-  .product-grid .product--container[hidden]:nth-child(27n + 4) {
-    display: inline-flex !important;
-    margin-right: 34.2833876221%;
+    margin: 0 1.6910935738% 5.625rem;
+    max-width: 36.0766629087%;
   }
 
   /* Align self for specific nth-child selectors */
@@ -232,8 +201,7 @@
 /* Desktop Styles (min-width: 60.0625rem) */
 @media screen and (min-width: 60.0625rem) {
   .product-grid .product--container {
-    margin-right: 2.8501628664%;
-    margin-bottom: 10rem;
+    margin: 0 2.8501628664% 10rem 0;
     max-width: 31.4332247557%;
   }
 
@@ -241,40 +209,35 @@
   .product-grid .product--container:nth-child(27n + 14),
   .product-grid .product--container:nth-child(27n + 19),
   .product-grid .product--container:nth-child(27n + 5) {
-    margin-right: 0;
-    margin-bottom: 10rem;
+    margin: 0 0 10rem;
   }
 
   .product-grid .product--container:nth-child(27n + 1),
   .product-grid .product--container:nth-child(27n + 16) {
-    margin-right: 1.3436482085%;
+    margin: 0 1.3436482085% 10rem;
     max-width: 41.6938110749%;
-    margin-bottom: 10rem;
   }
 
   .product-grid .product--container:nth-child(27n + 15),
   .product-grid .product--container:nth-child(27n + 2) {
-    margin-right: 1.3436482085%;
+    margin: 0 1.3436482085% 10rem;
     max-width: 27.6872964169%;
-    margin-bottom: 10rem;
   }
 
   .product-grid .product--container:nth-child(27n + 11),
   .product-grid .product--container:nth-child(27n + 21),
   .product-grid .product--container:nth-child(27n + 24),
   .product-grid .product--container:nth-child(27n + 6) {
-    margin-right: 4.5602605863%;
+    margin: 0 4.5602605863% 10rem;
     max-width: 25.2442996743%;
-    margin-bottom: 10rem;
   }
 
   .product-grid .product--container:nth-child(27n + 10),
   .product-grid .product--container:nth-child(27n + 20),
   .product-grid .product--container:nth-child(27n + 25),
   .product-grid .product--container:nth-child(27n + 7) {
-    margin-right: 4.5602605863%;
+    margin: 0 4.5602605863% 10rem;
     max-width: 56.1889250814%;
-    margin-bottom: 10rem;
   }
 
   .product-grid .product--container:nth-child(27n),
@@ -283,15 +246,13 @@
   .product-grid .product--container:nth-child(27n + 26),
   .product-grid .product--container:nth-child(27n + 8),
   .product-grid .product--container:nth-child(27n + 9) {
-    margin-right: 1.1400651466%;
+    margin: 0 1.1400651466% 10rem;
     max-width: 39.5765472313%;
-    margin-bottom: 10rem;
   }
 
   .product-grid .product--container[hidden]:nth-child(27n + 13),
   .product-grid .product--container[hidden]:nth-child(27n + 18),
   .product-grid .product--container[hidden]:nth-child(27n + 4) {
-    margin-right: 34.2833876221%;
-    margin-bottom: 10rem;
+    margin: 0 34.2833876221% 10rem 0;
   }
 }

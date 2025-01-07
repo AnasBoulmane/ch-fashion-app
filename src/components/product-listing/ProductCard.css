@@ -1,7 +1,7 @@
 :root {
   --color-primary: #1d1d1d;
   --color-secondary: #f9f9f9;
-  --transition-duration: 3s; /* Used for image fade in */
+  --transition-duration: 2s; /* Used for image fade in */
   --font-base: abchanel-corpo, Arial, Helvetica, sans-serif;
   --font-weight-semibold: 600;
 }

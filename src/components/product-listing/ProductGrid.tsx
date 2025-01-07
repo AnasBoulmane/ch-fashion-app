@@ -13,12 +13,12 @@ type ProductGridProps = {
 export const ProductGrid = ({ products: productList, totalCount }: ProductGridProps) => {
   const productGroups = groupByProductType(productList)
   return (
-    <div className={`product-list eyewear-product-list nw-product-grid`}>
-      <div className={`products-wrapper col-s-24 col-m-24 col-l-14`}>
+    <div className={`product-list eyewear-product-list nw-product-grid w-full`}>
+      <div className={`products-wrapper w-full`}>
         <div role="heading" aria-level={3} className="sr-only">
           {i18n('search-product-content', totalCount)}
         </div>
-        <div className="product-grid">
+        <div className="product-grid w-full">
           {productGroups.map(({ groupId, products }, index) => (
             <ProductGroup key={index} groupId={groupId} products={products} />
           ))}

@@ -9,7 +9,7 @@ const searchBarCn = cn([
   'pt-3 md:pt-6 px-7 md:px-1 pb-1.5 ', // padding
   'relative after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[4px] md:after:bg-black', // underline effect base
   'after:transition-opacity after:duration-700 after:ease-out after:opacity-0 md:after:focus-within:opacity-100', // underline effect animation
-  'border-b border-neutral-200 md:border-black',
+  'md:border-b border-neutral-200 md:border-black',
 ])
 
 export const SearchBar = () => {

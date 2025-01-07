@@ -19,6 +19,7 @@ export type SearchState = {
   // UI State
   isLoading: boolean
   isSearching: boolean
+  isOverlayOpen: boolean
   isFilterDrawerOpen: boolean
 
   // Filters
@@ -109,22 +110,25 @@ export const useSearchStore = create<SearchState & SearchActions>()(
       const activeFilters = ''
       // Cancel any pending suggestions
       store.getSuggestions.cancel()
-      console.log('searching', term, axisType)
       // generate a new request id, aborting the previous one
       const requestId = updateRequestId()
       // Reset products, loading state and set search term
       set({ term, isSearching: true, isLoading: true, products: [] })
 
       try {
-        console.log('searching', term, axisType)
         // Perform search with current filters and price range
         const { data } = await fetchSearchResults(term, activeFilters, axisType)
         // Check if search data is available
         if (!data.landingAxisSearchData) throw new Error('No search data found')
         // Check if request is still valid, otherwise ignore
         if (requestId !== currentRequestId) return
+        const isSearchingInAxis = axisType !== undefined
         set({
-          availableAxisTypes: data.axisMap ? (Object.keys(data.axisMap) as AxisType[]) : [],
+          availableAxisTypes: isSearchingInAxis
+            ? store.availableAxisTypes
+            : data.axisMap
+              ? (Object.keys(data.axisMap) as AxisType[])
+              : [],
           activeAxisType: data.landingAxisSearchData.axisType,
           products: data.landingAxisSearchData.productListData.products,
           totalCount: data.landingAxisSearchData.productListData.pagination.totalNumberOfResults,
@@ -184,7 +188,6 @@ export const useSearchStore = create<SearchState & SearchActions>()(
       Promise.resolve().then(() => set({ isLoading: true }))
 
       try {
-        console.log('loading more results', term, nextPage)
         const { data } = await fetchSearchResults(term, activeFilters, activeAxisType, nextPage)
         // Check if search data is available
         if (!data.landingAxisSearchData) throw new Error('No search data found')
@@ -220,3 +223,4 @@ const updateSearchHistory = (history: string[], term: string) => {
 
 export const selectIsSearchLoading = (state: SearchState) => state.isLoading && state.isSearching
 export const selectHasMoreResults = (state: SearchState) => state.page < state.pageCount
+export const selectHasMoreAxisTypes = (state: SearchState) => state.isSearching && state.availableAxisTypes.length > 1
