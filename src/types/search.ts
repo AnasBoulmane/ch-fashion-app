@@ -97,6 +97,7 @@ export interface SearchResponse {
           totalNumberOfResults: number
           currentPage: number
           numberOfPages: number
+          pageSize: number
         }
       }
     }

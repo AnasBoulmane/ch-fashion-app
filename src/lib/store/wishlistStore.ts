@@ -14,11 +14,11 @@ interface WishlistState {
 const wishlistAPI = {
   add: async (item: WishlistItem) => {
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 400))
+    await new Promise((resolve) => setTimeout(() => resolve(item), 400))
   },
   remove: async (productCode: string) => {
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 500))
+    await new Promise((resolve) => setTimeout(() => resolve(productCode), 500))
   },
 }
 
