@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Analytics } from '@vercel/analytics/react'
 import { noto } from './fonts'
 import './globals.css'
 import Script from 'next/script'
@@ -17,6 +18,7 @@ export default function RootLayout({
     <html lang="en-US">
       <body className={`language-en_US ${noto.variable} antialiased`}>
         {children}
+        <Analytics />
         <Script id="vtoLoader" src="/vto-lazy-loader.js" strategy="afterInteractive" />
       </body>
     </html>
