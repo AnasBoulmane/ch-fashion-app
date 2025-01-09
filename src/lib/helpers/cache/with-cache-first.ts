@@ -2,7 +2,7 @@ import { CLIENT_CACHE_ADAPTERS } from './client-adapters'
 import { generateKey } from './key-gen'
 import { CacheAdapter } from './types'
 
-const TTL = 1000 * 60 * 60 * 24 // 24 hours in milliseconds
+const TTL = 1000 * 60 * 60 * 3 // 3 hours in milliseconds (default=half the edge cache lifetime)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Fetcher<T> = (...args: any[]) => Promise<T | undefined>
@@ -17,7 +17,7 @@ export function withCacheFirst<R, T extends Fetcher<R>>(baseKey: string, fetcher
     const key = generateKey([baseKey, args])
     // Check each adapter in order
     for (const adapter of adapters) {
-      const result = await adapter.get<R>(key, ttl)
+      const result = await adapter.get<R>(key)
       if (result) {
         return result
       }
@@ -26,7 +26,7 @@ export function withCacheFirst<R, T extends Fetcher<R>>(baseKey: string, fetcher
     const result = await fetcher(...args)
     // Set the result in each adapter
     for (const adapter of adapters) {
-      adapter.set(key, result)
+      adapter.set(key, result, ttl)
     }
     return result
   }) as T

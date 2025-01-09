@@ -98,16 +98,9 @@
   }
 }
 
-/* Product Group Modifiers */
-.product-group__ACC .product--container {
-  & .placeholder,
-  & .product--media::before {
-    padding-top: 116.6015625%;
-  }
-}
-
 .product-group__RTW .product--container {
   & .placeholder,
+  & .product--media,
   & .product--media::before {
     padding-top: 147.65625%;
   }

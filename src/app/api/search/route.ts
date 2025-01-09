@@ -2,6 +2,7 @@ import { SearchResponse } from '@/types/search'
 import { NextResponse } from 'next/server'
 import { fetchAggregatedSearch, fetchSearchPage } from './search'
 import { SearchParams } from './types'
+import { EdgeJsonResponse } from '@/lib/helpers/cache/edge-response'
 
 export async function GET(request: Request) {
   try {
@@ -15,7 +16,7 @@ export async function GET(request: Request) {
     }
 
     const response = await handleSearch(params)
-    return NextResponse.json(response)
+    return EdgeJsonResponse(response, { request })
   } catch (error) {
     console.error('Search error:', error)
     return NextResponse.json({ success: false, error: 'Search failed' }, { status: 500 })

@@ -14,7 +14,7 @@ import { SERVER_CACHE_ADAPTERS } from '@/lib/helpers/cache/server-adapters'
 const fetcher = withCacheFirst(
   'search',
   async (url: string) => {
-    console.log('fetchChanelSearch', url)
+    console.log('backend search api call:', url)
     const response = await fetch(url, { headers: HEADERS })
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status} `)
@@ -26,6 +26,7 @@ const fetcher = withCacheFirst(
     }
   },
   {
+    ttl: 1000 * 60 * 60 * 24 * 25, // 25 days in milliseconds
     adapters: SERVER_CACHE_ADAPTERS,
   }
 )

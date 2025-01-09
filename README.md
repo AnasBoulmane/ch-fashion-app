@@ -1,13 +1,13 @@
 # Chanel Fashion App
 
-A modernized clone of Chanel.com with enhanced search functionality and performance optimizations.
+A sophisticated heigtly opinionated clone of Chanel's e-commerce platform that showcases modern web architecture, advanced caching strategies, and elegant solutions to complex pagination challenges. This project demonstrates expertise in full-stack development, system design, and performance optimization.
 
 ## Features
 
 - 🔍 Advanced Search System
 
   - Real-time suggestions
-  - Multi-layer caching (Memory + IndexedDB)
+  - Multi-layer caching (Memory + IndexedDB + CDN + Redis)
   - Debounced queries
   - Search history tracking
 
@@ -21,31 +21,102 @@ A modernized clone of Chanel.com with enhanced search functionality and performa
 - 🚀 Performance
   - Client-side caching
   - Optimized API calls
-  - Stable object references
+  - Stable object references (optimized re-renders)
   - Memory usage monitoring
 
 ## Tech Stack
 
-- **Frontend**: Next.js 14, React, TypeScript
+- **Frontend**: Next.js 14, React 18, TypeScript
+- **Backend**: Next.js API Routes
 - **State Management**: Zustand
 - **Caching**: Custom implementation (Memory + IndexedDB)
+  - Client: Memory + IndexedDB
+  - Server: Redis + Memory
 - **Styling**: Tailwind CSS
-- **Testing**: Jest (planned)
 
 ## Architecture
 
-### Caching System
+### Dynamic (Facade) Pagination
 
-```typescript
-Memory Cache (P1) → IndexedDB (P2) → API (P3)
+The application implements a **dynamic Facade Pagination** to address inconsistent and non-dynamic pagination responses from the backend API. This ensures a streamlined and unified user experience across different search axes (tabs).
+
+**Problem Solved**
+
+- **Inconsistent Page Sizes**: Various Chanel API endpoints return differing numbers of items per page based on the search axis (e.g., Fashion returns 27, Jewelry returns 6).
+
+**Solution: Transparent Page Aggregation**
+
+1. **Pagination Boundaries Calculation**
+   - Determines necessary backend pages to fetch based on the frontend's desired page size.
+2. **Response Aggregation**
+   - Combines multiple backend responses so the frontend can display a uniform page of results.
+3. **Consistent Frontend Experience**
+   - Ensures users always see the same number of items per page, regardless of the backend’s axis.
+4. **Offset Handling**
+   - Accurately calculates offsets to retrieve the correct subset of items from each backend response.
+
+**Example Workflow**
+
+```plaintext
+Frontend Request: page=1, size=27
+↓
+Backend Responses:
+- Fashion: 27 items/page (requires 1 requests)
+- Jewelry: 6 items/page (requires 5 requests)
+↓
+Frontend Display: Consistently displays 27 items
 ```
 
-Key Features
+### Multi-Layer Caching System
 
-- Two-layer cache implementation
-- Deterministic key generation
-- TTL support
-- Memory usage tracking
+The app utilizes an **Adapter-Based Caching System** to optimize data retrieval and enhance performance on both client and server sides.
+
+**Key Features**
+
+- **Adapter Pattern**
+
+  - **Flexibility**: Easily switch or add caching mechanisms without changing core logic.
+  - **Priority-Based Checking**: Checks caches in a defined order (Memory → IndexedDB) or (Memory → Redis).
+
+- **Cache Adapters**
+
+  - **Client-Side**
+    - **Memory Cache**: Fast, in-memory storage for immediate reads.
+    - **IndexedDB Cache**: Persistent storage for larger datasets.
+  - **Server-Side**
+    - **Memory Cache**: Shared quick-access storage across server instances.
+    - **Redis Cache**: Distributed, high-speed caching for scalability and persistence.
+
+- **Automatic Garbage Collection**
+
+  - Prevents indefinite cache growth by removing older data when size thresholds are exceeded.
+
+- **Memory Usage Monitoring**
+
+  - Logs usage for optimization and performance tracking.
+
+- **TTL (Time-To-Live) Support**
+  - Ensures data is refreshed periodically for accuracy.
+
+**Cache Configuration Example**
+
+```typescript
+interface CacheAdapter {
+  get: <T>(key: string) => Promise<T | undefined>
+  set: <T>(key: string, value: T, ttl?: number) => Promise<void>
+}
+// ...existing code...
+const CLIENT_CACHE_ADAPTERS = [
+  memoryAdapter, // Fast, in-memory
+  indexedDbAdapter, // Persistent, larger
+]
+
+const SERVER_CACHE_ADAPTERS = [
+  memoryAdapter, // fast, cheap = only to save money
+  redisCacheAdapter, // Distributed caching
+]
+// ...existing code...
+```
 
 ### Project Structure
 

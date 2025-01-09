@@ -50,14 +50,6 @@ export const aggregateResponses = (responses: SearchResponse[], boundaries: Pagi
   const pagination = firstResponse.data.landingAxisSearchData.productListData.pagination
   const totalResults = pagination.totalNumberOfResults
 
-  console.log('Combined products:', {
-    totalResults,
-    currentPage: boundaries.frontendPage,
-    combinedProducts: combinedProducts.length,
-    numberOfPages: Math.floor(totalResults / boundaries.desiredPageSize),
-    originalNumberOfPages: firstResponse.data.landingAxisSearchData.productListData.pagination.numberOfPages,
-  })
-
   // Update pagination in first response
   const productListData = {
     ...firstResponse.data.landingAxisSearchData.productListData,
