@@ -25,13 +25,10 @@ export async function GET(request: Request) {
 
 const handleSearch = async (params: SearchParams): Promise<SearchResponse> => {
   // try to determine the page size from the first page
-  const firstResponse = await fetchSearchPage({ ...params, backendPage: 1 })
+  const firstResponse = await fetchSearchPage({ ...params, backendPage: params.page + 1 })
   const backendPageSize = firstResponse?.data?.landingAxisSearchData?.productListData?.pagination?.pageSize || 6
-  // check if the backend page size matches the desired page size
-  if (backendPageSize === params.size) {
-    return firstResponse
-  }
-
-  // For other axes, aggregate multiple pages
+  // aggregate multiple pages if necessary to match the frontend page size
+  // if the backend page size is already equal to the frontend page size, it will reuse
+  // the first response from cache and update the pagination for uniformity
   return fetchAggregatedSearch(params, backendPageSize)
 }

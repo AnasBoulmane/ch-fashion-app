@@ -24,6 +24,7 @@ export type SearchState = {
 
   // Filters
   filters: Filter[]
+  filtersQuery: string
 
   // Pagination
   page: number
@@ -33,13 +34,9 @@ export type SearchState = {
 export type SearchActions = {
   // Core search actions
   setTerm: (term: string) => void
-  search: DebouncedFunc<(term: string, axisType?: string) => Promise<void>>
+  search: DebouncedFunc<(term: string, axisType?: string, filtersQuery?: string) => Promise<void>>
   getSuggestions: DebouncedFunc<(term: string) => Promise<void>>
   clearHistory: () => void
-
-  // Filter actions
-  // toggleFilter: (filter: Filter) => void
-  // clearFilters: () => void
 
   // UI actions
   toggleFilterDrawer: () => void
@@ -71,6 +68,7 @@ export const useSearchStore = create<SearchState & SearchActions>()(
 
     // Filters
     filters: [],
+    filtersQuery: '',
 
     // Pagination
     page: 0,
@@ -88,11 +86,11 @@ export const useSearchStore = create<SearchState & SearchActions>()(
     },
 
     // Debounced suggestions fetcher
-    getSuggestions: debounce(async (term) => {
+    getSuggestions: debounce(async (term: string) => {
       try {
         // generate a new request id, aborting the previous one
         const requestId = updateRequestId()
-        const { data } = await fetchSuggestions(term)
+        const { data } = await fetchSuggestions(term.trim().toLowerCase())
         // Check if request is still valid, otherwise ignore
         if (requestId !== currentRequestId) return
         set({
@@ -105,19 +103,19 @@ export const useSearchStore = create<SearchState & SearchActions>()(
       }
     }, 300),
 
-    search: throttle(async (term, axisType) => {
+    search: throttle(async (term, axisType, filtersQuery = '') => {
+      if (!term || term.length < 2) return
       const store = get()
-      const activeFilters = ''
       // Cancel any pending suggestions
       store.getSuggestions.cancel()
       // generate a new request id, aborting the previous one
       const requestId = updateRequestId()
       // Reset products, loading state and set search term
-      set({ term, isSearching: true, isLoading: true, products: [] })
+      set({ term, filtersQuery, isSearching: true, isLoading: true, products: [] })
 
       try {
         // Perform search with current filters and price range
-        const { data } = await fetchSearchResults(term, activeFilters, axisType)
+        const { data } = await fetchSearchResults(term, filtersQuery, axisType)
         // Check if search data is available
         if (!data.landingAxisSearchData) throw new Error('No search data found')
         // Check if request is still valid, otherwise ignore
@@ -131,12 +129,14 @@ export const useSearchStore = create<SearchState & SearchActions>()(
               : [],
           activeAxisType: data.landingAxisSearchData.axisType,
           products: data.landingAxisSearchData.productListData.products,
+          filters: (data.landingAxisSearchData.productListData.facets || []).filter((f) => f.code && f.values?.length),
           totalCount: data.landingAxisSearchData.productListData.pagination.totalNumberOfResults,
           page: data.landingAxisSearchData.productListData.pagination.currentPage,
           pageCount: data.landingAxisSearchData.productListData.pagination.numberOfPages,
           isSearching: true,
           isLoading: false,
           term,
+          filtersQuery,
           history: updateSearchHistory(store.history, term),
           suggestions: [],
         })
@@ -151,24 +151,6 @@ export const useSearchStore = create<SearchState & SearchActions>()(
       }
     }, 300),
 
-    // // Filter management
-    // toggleFilter: (filter) => {
-    //   const store = get()
-    //   const newFilters = toggleFilterInArray(store.activeFilters, filter)
-    //   set({ activeFilters: newFilters })
-    //   // Trigger new search with updated filters
-    //   store.search(store.term)
-    // },
-
-    // clearFilters: () => {
-    //   set({
-    //     activeFilters: [],
-    //     priceRange: { min: null, max: null }
-    //   })
-    //   // Trigger new search without filters
-    //   get().search(get().term)
-    // },
-
     // History management
     clearHistory: () => set({ history: [] }),
 
@@ -181,14 +163,13 @@ export const useSearchStore = create<SearchState & SearchActions>()(
     // Pagination
     loadMore: async () => {
       const store = get()
-      const { term, page, activeAxisType } = store
+      const { term, filtersQuery, page, activeAxisType } = store
       const nextPage = page + 1
-      const activeFilters = ''
       // Set loading state, in case of cached data the promise will prevent flickering UI
       Promise.resolve().then(() => set({ isLoading: true }))
 
       try {
-        const { data } = await fetchSearchResults(term, activeFilters, activeAxisType, nextPage)
+        const { data } = await fetchSearchResults(term, filtersQuery, activeAxisType, nextPage)
         // Check if search data is available
         if (!data.landingAxisSearchData) throw new Error('No search data found')
 
@@ -213,13 +194,6 @@ const updateSearchHistory = (history: string[], term: string) => {
   newHistory.unshift(term)
   return newHistory.slice(0, 3) // Keep last 3 searches
 }
-
-// const toggleFilterInArray = (filters: Filter[], filter: Filter) => {
-//   const exists = filters.find(f => f.id === filter.id)
-//   return exists
-//     ? filters.filter(f => f.id !== filter.id)
-//     : [...filters, filter]
-// }
 
 export const selectIsSearchLoading = (state: SearchState) => state.isLoading && state.isSearching
 export const selectHasMoreResults = (state: SearchState) => state.page < state.pageCount

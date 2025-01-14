@@ -83,7 +83,11 @@ export const ProductCard = memo(
                 {name}
               </span>
             )}
-            {description && <span className="sr-only">{description}</span>}
+            {description && (
+              <p className="product--variant" data-product-element={'shades'}>
+                {description}
+              </p>
+            )}
             {refFshCode && <span className="sr-only">{refFshCode}</span>}
           </a>
         </p>
@@ -96,7 +100,7 @@ export const ProductCard = memo(
             <p className="product--variant" data-product-element={'shades'}>
               {numberOfVariants} {i18n('product-colors')}
             </p>
-          )}
+          )}{' '}
           {displayPrice && (
             <p className="product--price" data-product-element={'price'}>
               {price}

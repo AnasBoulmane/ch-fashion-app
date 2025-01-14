@@ -18,7 +18,7 @@ export const ProductGrid = ({ products: productList, totalCount }: ProductGridPr
         <div role="heading" aria-level={3} className="sr-only">
           {i18n('search-product-content', totalCount)}
         </div>
-        <div className="product-grid w-full">
+        <div className="product-grid grid-listing-container flex-col">
           {productGroups.map(({ groupId, products }, index) => (
             <ProductGroup key={index} groupId={groupId} products={products} />
           ))}

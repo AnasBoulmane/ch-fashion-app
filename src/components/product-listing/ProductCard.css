@@ -34,8 +34,7 @@
     }
   }
 
-  & .is-cropped,
-  & .product--link,
+  & .product--link .heading,
   & .product--price {
     cursor: pointer;
     display: block;
@@ -103,6 +102,11 @@
   & .product--media,
   & .product--media::before {
     padding-top: 147.65625%;
+  }
+
+  .product--variant {
+    display: none;
+    visibility: hidden;
   }
 
   & .btn-group.absolute {

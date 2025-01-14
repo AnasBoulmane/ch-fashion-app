@@ -1,4 +1,4 @@
-import { SearchResponse, SuggestResponse } from '@/types/search'
+import { Filter, SearchResponse, SuggestResponse } from '@/types/search'
 import { withCacheFirst } from '../helpers/cache/with-cache-first'
 
 export async function baseFetchSuggestions(query: string): Promise<SuggestResponse> {
@@ -19,7 +19,7 @@ export async function baseFetchSearchResults(
   size = 27
 ): Promise<SearchResponse> {
   const params = new URLSearchParams({
-    q: query,
+    q: encodeURIComponent(query),
     page: page.toString(),
     size: size.toString(),
   })

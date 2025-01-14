@@ -11,6 +11,10 @@ type Options = {
   adapters?: CacheAdapter[]
 }
 
+/**
+ * A higher-order function that wraps a fetcher function with a cache-first strategy
+ * returning the cached value if it exists, otherwise fetching the data and caching it
+ **/
 export function withCacheFirst<R, T extends Fetcher<R>>(baseKey: string, fetcher: T, options?: Options): T {
   const { adapters, ttl } = Object.assign({ ttl: TTL, adapters: CLIENT_CACHE_ADAPTERS }, options)
   return (async (...args: unknown[]) => {

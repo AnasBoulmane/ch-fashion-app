@@ -26,5 +26,5 @@ export const dbCacheAdapter: CacheAdapter = Object.freeze({
 
 export const CLIENT_CACHE_ADAPTERS = Object.freeze([
   memCacheAdapter, // P1: Check memory cache first
-  dbCacheAdapter, // P2: Check IndexedDB next
+  // dbCacheAdapter, // P2: Check IndexedDB next
 ]) as CacheAdapter[]

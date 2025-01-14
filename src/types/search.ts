@@ -73,13 +73,15 @@ export interface Filter {
   specialFacet: boolean
   code: string
   priceFacet: boolean
-  values: Array<{
-    name: string
-    code: string
-    filter: string
-    count: number
-    selected: boolean
-  }>
+  values: FilterValue[]
+}
+export interface FilterValue {
+  name: string
+  code: string
+  filter: string
+  count: number
+  value: string
+  selected: boolean
 }
 
 export interface SearchResponse {

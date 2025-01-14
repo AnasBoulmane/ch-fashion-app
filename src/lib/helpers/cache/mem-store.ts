@@ -20,7 +20,7 @@ export const createMemoryCache = (cacheSize: number = DEFAULT_CACHE_SIZE): MemCa
    **/
   const garbageCollect = (size: number = cacheSize) => {
     const entries = Array.from(store.entries())
-    const sortedEntries = entries.sort((a, b) => a[1].timestamp - b[1].timestamp)
+    const sortedEntries = entries.sort((a, b) => b[1].timestamp - a[1].timestamp)
     let total = 0
     for (const [key, entry] of sortedEntries) {
       total += JSON.stringify(entry).length

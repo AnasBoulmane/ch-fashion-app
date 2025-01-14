@@ -34,34 +34,8 @@
   width: 100%;
 }
 
-.product-grid {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  max-width: 76.75rem;
-  padding: 2.25rem 0 0;
-  width: auto;
-}
-@media screen and (min-width: 37.5625rem) {
-  .product-grid {
-    margin: 0 3.8020833333%;
-    padding: 2.8125rem 0 0;
-  }
-}
-@media screen and (min-width: 60.0625rem) {
-  .product-grid {
-    margin: 0 7.3611111111%;
-    padding: 3.9375rem 0 0;
-  }
-}
-@media (min-width: 1440px) {
-  .product-grid {
-    margin: 0 auto;
-  }
-}
-
 /* ---------------------------------------------------
-   Responsive Styles
+   Responsive Styles products grid layout
 ---------------------------------------------------- */
 
 /* Mobile Styles (max-width: 37.5rem) */
@@ -100,6 +74,7 @@
   .product-grid .product--container:nth-child(6n),
   .product-grid .product--container:nth-child(6n + 3) {
     .product--content,
+    .product--link .product--variant,
     .product--link span:not(.product--media) {
       margin-left: 1.25rem;
     }

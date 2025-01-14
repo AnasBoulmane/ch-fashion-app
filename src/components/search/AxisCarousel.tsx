@@ -9,9 +9,9 @@ type AxisCarouselProps = {
 
 export const AxisCarousel = ({ availableAxis, activeAxis, onAxisChange }: AxisCarouselProps) => {
   return (
-    <div className="axis-carousel w-full border-b border-neutral-200 ">
+    <div className="axis-carousel w-full">
       <nav className="w-full">
-        <ul className="flex gap-3 pt-2 px-5 overflow-x-auto w-full md:justify-center">
+        <ul className="flex gap-3 pt-1 px-5 overflow-x-auto w-full md:justify-center">
           {availableAxis.map((axisKey) => (
             <li key={axisKey}>
               <button

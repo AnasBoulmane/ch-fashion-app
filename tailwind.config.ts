@@ -11,6 +11,10 @@ export default {
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
+        primary: 'hsl(var(--primary))',
+        muted: 'hsl(var(--muted))',
+        'primary-foreground': 'hsl(var(--primary-foreground))',
+        'muted-foreground': 'hsl(var(--muted-foreground))',
       },
       fontFamily: {
         noto: 'var(--font-noto-sans)',
@@ -27,10 +31,19 @@ export default {
       opacity: {
         '60': '0.6',
       },
-      maxWidth: {
-        'product-sm': '34.93%',
-        'product-md': '49.83%',
-        'product-lg': '41.69%',
+      keyframes: {
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.15s ease-out',
+        'accordion-up': 'accordion-up 0.15s ease-out',
       },
     },
   },
