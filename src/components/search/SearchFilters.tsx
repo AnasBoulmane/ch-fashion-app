@@ -13,6 +13,7 @@ export const SearchFilters = ({ transitionY, transitionFactor = 1, className }: 
   const handleFilterChange = async (filtersQuery = '') => {
     // fetch total count on filter change
     const { data } = await fetchSearchResults(term, filtersQuery, activeAxisType)
+    // only update filters drower
     return !data?.landingAxisSearchData?.productListData
       ? undefined
       : {
@@ -20,6 +21,8 @@ export const SearchFilters = ({ transitionY, transitionFactor = 1, className }: 
           totalCount: data.landingAxisSearchData?.productListData?.pagination?.totalNumberOfResults ?? 0,
         }
   }
+  // when filters drower is closed or filters are submitted,
+  // we apply the filters to the search results
   const handleFilterSubmit = async (updatedFiltersQuery?: string) => {
     search(term, activeAxisType, updatedFiltersQuery ?? filtersQuery)
   }

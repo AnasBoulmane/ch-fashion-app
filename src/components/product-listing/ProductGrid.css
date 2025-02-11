@@ -62,12 +62,7 @@
   .product-grid .product--container:nth-child(6n + 8) {
     margin: 0 2% 2.8125rem;
     max-width: 43.2%;
-  }
-
-  /* Hidden nth-child selectors */
-  .product-grid .product--container[hidden]:nth-child(6n + 2),
-  .product-grid .product--container[hidden]:nth-child(6n + 5) {
-    display: inline-flex !important;
+    align-self: flex-start;
   }
 
   /* Adjustments for product-name with specific nth-child */

@@ -1,4 +1,4 @@
-import { Filter, SearchResponse, SuggestResponse } from '@/types/search'
+import { SearchResponse, SuggestResponse } from '@/types/search'
 import { withCacheFirst } from '../helpers/cache/with-cache-first'
 
 export async function baseFetchSuggestions(query: string): Promise<SuggestResponse> {

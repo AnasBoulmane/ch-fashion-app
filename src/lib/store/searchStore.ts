@@ -4,6 +4,8 @@ import { debounce, DebouncedFunc, throttle } from 'lodash'
 import { AxisType, Filter, Product, Suggestion } from '@/types/search'
 import { fetchSearchResults, fetchSuggestions } from '../api'
 
+const SEARCH_TERM_MIN_LENGTH = 2
+
 export type SearchState = {
   // Search related
   term: string
@@ -104,7 +106,7 @@ export const useSearchStore = create<SearchState & SearchActions>()(
     }, 300),
 
     search: throttle(async (term, axisType, filtersQuery = '') => {
-      if (!term || term.length < 2) return
+      if (!term || term.length < SEARCH_TERM_MIN_LENGTH) return
       const store = get()
       // Cancel any pending suggestions
       store.getSuggestions.cancel()
@@ -198,3 +200,5 @@ const updateSearchHistory = (history: string[], term: string) => {
 export const selectIsSearchLoading = (state: SearchState) => state.isLoading && state.isSearching
 export const selectHasMoreResults = (state: SearchState) => state.page < state.pageCount
 export const selectHasMoreAxisTypes = (state: SearchState) => state.isSearching && state.availableAxisTypes.length > 1
+export const selectShowResults = (state: SearchState) =>
+  state.isSearching && state.products.length > 0 && state.term.length >= SEARCH_TERM_MIN_LENGTH

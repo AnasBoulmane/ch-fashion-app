@@ -29,6 +29,7 @@ export function useScrollTransition(options: ScrollTransitionOptions = {}) {
   )
 
   // Handle scroll events
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleScroll = useCallback(
     throttle(() => {
       const container = containerRef.current

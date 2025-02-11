@@ -24,6 +24,9 @@ export const dbCacheAdapter: CacheAdapter = Object.freeze({
   },
 } as CacheAdapter)
 
+// the client side should not need a programatic cache layer like this
+// given all the layers of caching that are already in place in server side and edge caching
+// this is a good example of a the adapter pattern
 export const CLIENT_CACHE_ADAPTERS = Object.freeze([
   memCacheAdapter, // P1: Check memory cache first
   // dbCacheAdapter, // P2: Check IndexedDB next

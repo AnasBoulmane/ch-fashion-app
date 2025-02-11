@@ -4,6 +4,7 @@ import {
   selectIsSearchLoading,
   selectHasMoreResults,
   selectHasMoreAxisTypes,
+  selectShowResults,
 } from '@/lib/store/searchStore'
 import { SearchBar } from './SearchBar'
 import { SuggestionsSection } from './SuggestionsSection'
@@ -16,11 +17,12 @@ import { StickyBar } from '../common/StickyBar'
 import { SearchFilters } from './SearchFilters'
 
 export function SearchOverlay() {
-  const { term, products, suggestions, totalCount, activeAxisType, availableAxisTypes, isSearching, loadMore, search } =
+  const { term, products, suggestions, totalCount, activeAxisType, availableAxisTypes, loadMore, search } =
     useSearchStore()
   const hasMoreAxis = useSearchStore(selectHasMoreAxisTypes)
   const hasMorePages = useSearchStore(selectHasMoreResults)
   const isSearchLoading = useSearchStore(selectIsSearchLoading)
+  const shouldShowResults = useSearchStore(selectShowResults)
   // handlers
   const handleAxisChange = (axisType: string) => search(term, axisType)
   // Atache scroll event listeners to the product grid container with ref
@@ -37,7 +39,7 @@ export function SearchOverlay() {
       </div>
       <div className="flex-col-view overflow-y-auto pb-3" ref={containerRef}>
         {/* Animated Sections */}
-        {hasMoreAxis && (
+        {shouldShowResults && hasMoreAxis && (
           <StickyBar
             ref={heightLimitRef}
             transitionY={transitionY}
@@ -52,11 +54,11 @@ export function SearchOverlay() {
           </StickyBar>
         )}
         {/* Filters Bar */}
-        {isSearching && products.length > 0 && <SearchFilters transitionY={transitionY} />}
+        {shouldShowResults && <SearchFilters transitionY={transitionY} />}
         {/* End Animated Sections */}
         {isSearchLoading && <Loader msg="Loading in progress" className="fixed inset-0 z-50" />}
         {suggestions.length > 0 && <SuggestionsSection />}
-        {isSearching && products.length > 0 && (
+        {shouldShowResults && (
           <>
             <ProductGrid products={products} axis={activeAxisType} totalCount={totalCount} />
             {hasMorePages && <LoadMoreButton onClick={loadMore} />}
